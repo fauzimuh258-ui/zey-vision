@@ -1,0 +1,173 @@
+/**
+ * Zey Vision — Motion System (Part 4)
+ */
+
+:root {
+  /* Duration */
+  --zv-duration-instant: 100ms;
+  --zv-duration-fast: 150ms;
+  --zv-duration-normal: 200ms;
+  --zv-duration-slow: 320ms; /* page-level / large-content only, see note above */
+
+  /* Easing */
+  --zv-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --zv-ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --zv-ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --zv-ease-gentle: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Micro-interactions: hover, press, focus — one reusable class           */
+/* ---------------------------------------------------------------------- */
+
+.zv-interactive {
+  transition: opacity var(--zv-duration-fast) var(--zv-ease-standard),
+              transform var(--zv-duration-instant) var(--zv-ease-standard);
+}
+.zv-interactive:hover {
+  opacity: 0.9;
+}
+.zv-interactive:active {
+  transform: scale(0.98);
+}
+.zv-interactive:focus-visible {
+  outline: 2px solid var(--zv-color-accent);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Transition presets — driven by a data-phase attribute from the         */
+/* usePresence hook (entering / entered / exiting / exited)               */
+/* ---------------------------------------------------------------------- */
+
+.zv-transition-fade {
+  transition: opacity var(--zv-duration-normal) var(--zv-ease-standard);
+}
+.zv-transition-fade[data-phase="entering"],
+.zv-transition-fade[data-phase="exiting"],
+.zv-transition-fade[data-phase="exited"] {
+  opacity: 0;
+}
+.zv-transition-fade[data-phase="entered"] {
+  opacity: 1;
+}
+
+.zv-transition-scale {
+  transition: opacity var(--zv-duration-normal) var(--zv-ease-standard),
+              transform var(--zv-duration-normal) var(--zv-ease-standard);
+  transform: scale(1);
+  opacity: 1;
+}
+.zv-transition-scale[data-phase="entering"],
+.zv-transition-scale[data-phase="exited"] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.zv-transition-scale[data-phase="exiting"] {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.zv-transition-slide {
+  transition: opacity var(--zv-duration-normal) var(--zv-ease-standard),
+              transform var(--zv-duration-normal) var(--zv-ease-standard);
+  transform: translateY(0);
+  opacity: 1;
+}
+.zv-transition-slide[data-phase="entering"],
+.zv-transition-slide[data-phase="exited"] {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.zv-transition-slide[data-phase="exiting"] {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+/* The one preset that can't honestly be done with transform/opacity alone
+   — an actual blur needs `filter`. Modern evergreen browsers composite
+   `filter` on the GPU too, so this doesn't meaningfully break the spirit
+   of the "transform + opacity only" rule, but it IS a different property,
+   flagged here rather than silently used. */
+.zv-transition-blur {
+  transition: opacity var(--zv-duration-normal) var(--zv-ease-standard),
+              filter var(--zv-duration-normal) var(--zv-ease-standard);
+  filter: blur(0px);
+  opacity: 1;
+}
+.zv-transition-blur[data-phase="entering"],
+.zv-transition-blur[data-phase="exited"] {
+  opacity: 0;
+  filter: blur(6px);
+}
+.zv-transition-blur[data-phase="exiting"] {
+  opacity: 0;
+  filter: blur(4px);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Loading states                                                         */
+/* ---------------------------------------------------------------------- */
+
+.zv-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--zv-color-border);
+}
+.zv-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--zv-color-surface), transparent);
+  animation: zv-shimmer 1.8s var(--zv-ease-standard) infinite;
+}
+@keyframes zv-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.zv-spinner {
+  display: inline-block;
+  border-radius: 9999px;
+  border-color: var(--zv-color-border);
+  border-top-color: var(--zv-color-accent);
+  border-style: solid;
+  animation: zv-spin 1s linear infinite;
+}
+@keyframes zv-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Reduced motion — mandatory. Supersedes Part 3's narrower block for     */
+/* .zv-modal-in / .zv-pop-in (remove that smaller block; this covers it). */
+/* ---------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .zv-transition-fade,
+  .zv-transition-scale,
+  .zv-transition-slide,
+  .zv-transition-blur,
+  .zv-interactive,
+  .zv-modal-in,
+  .zv-pop-in {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  /* Exceptions, made deliberately, not by omission: */
+  /* - .zv-spinner keeps spinning — it's small, purely functional, and
+       removing it would leave no loading indicator at all for these users. */
+  /* - .zv-skeleton switches from a sweeping motion to a gentle pulse,
+       since a sweep across a large surface is the kind of motion
+       prefers-reduced-motion exists to soften. */
+  .zv-skeleton::after {
+    animation: zv-pulse 1.8s ease-in-out infinite;
+    transform: none;
+  }
+  @keyframes zv-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+}

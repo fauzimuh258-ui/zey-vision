@@ -1,0 +1,39 @@
+/**
+ * Zey Vision — Focus Mode (Part 6)
+ */
+
+/* Zen mode: opt-in markers, not automatic DOM-tree detection — mark your
+   own nav/sidebar/header with data-zv-chrome, and anything you'd rather
+   dim (not hide) with data-zv-dim. There's no reliable way to write a
+   generic "everything except the reading column" selector without
+   knowing your DOM shape, so this stays explicit. */
+[data-zv-zen="true"] [data-zv-chrome] {
+  display: none;
+}
+[data-zv-zen="true"] [data-zv-dim] {
+  opacity: 0.35;
+  transition: opacity var(--zv-duration-slow) var(--zv-ease-standard);
+}
+
+/* Dyslexia-friendly override. !important is deliberate here: this is a
+   user-controlled accessibility preference that should reliably win over
+   component-level styles (including Part 2's serif body default and any
+   component's own italics) without every component needing to specially
+   account for it. */
+[data-zv-dyslexia="true"] {
+  font-family: var(--zv-font-sans) !important;
+  letter-spacing: 0.06em !important;
+  word-spacing: 0.15em !important;
+  line-height: var(--zv-leading-relaxed) !important;
+}
+[data-zv-dyslexia="true"] em,
+[data-zv-dyslexia="true"] i {
+  font-style: normal !important;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-zv-zen="true"] [data-zv-dim] {
+    transition: none;
+  }
+}

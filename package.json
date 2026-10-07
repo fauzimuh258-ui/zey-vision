@@ -1,0 +1,84 @@
+{
+  "name": "@zey/vision",
+  "version": "0.1.0",
+  "description": "Eye-friendly, circadian-adaptive design system for the Zey Ecosystem.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/<your-github-username>/zey-vision.git"
+  },
+  "files": ["dist"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./next": {
+      "types": "./dist/next/index.d.ts",
+      "import": "./dist/next/index.mjs",
+      "require": "./dist/next/index.js"
+    },
+    "./tailwind-preset": {
+      "types": "./dist/tailwind-preset.d.ts",
+      "import": "./dist/tailwind-preset.mjs",
+      "require": "./dist/tailwind-preset.js"
+    },
+    "./styles.css": "./dist/styles/theme.css",
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "tailwindcss": ">=3.4.0",
+    "next": ">=14.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": { "optional": true },
+    "next": { "optional": true }
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "tsdown": "^0.12.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "next": "^14.2.0",
+    "tailwindcss": "^3.4.0",
+    "vitest": "^4.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/jest-dom": "^6.4.0",
+    "jsdom": "^25.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "storybook": "^10.0.0",
+    "@storybook/react-vite": "^10.0.0",
+    "@storybook/addon-a11y": "^10.0.0",
+    "@storybook/addon-vitest": "^10.0.0",
+    "@vitest/browser-playwright": "^4.0.0",
+    "playwright": "^1.48.0",
+    "@changesets/cli": "^2.27.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build && npm run test && changeset publish"
+  }
+}

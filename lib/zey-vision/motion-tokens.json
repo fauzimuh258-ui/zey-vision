@@ -1,0 +1,23 @@
+{
+  "name": "zey-vision-motion-tokens",
+  "version": "0.1.0",
+  "duration": {
+    "instant": "100ms",
+    "fast": "150ms",
+    "normal": "200ms",
+    "slow": "320ms",
+    "note": "slow exceeds the 200ms interactive cap by design — reserved for page-level and large-content transitions only, never buttons/inputs/hover/focus"
+  },
+  "easing": {
+    "standard": "cubic-bezier(0.4, 0, 0.2, 1)",
+    "decelerate": "cubic-bezier(0, 0, 0.2, 1)",
+    "accelerate": "cubic-bezier(0.4, 0, 1, 1)",
+    "gentle": "cubic-bezier(0.45, 0, 0.55, 1)",
+    "note": "standard is functionally ease-in-out (the default). All four keep their Y control points within 0-1, so none overshoot — that's what 'no bounce/spring' means in bezier terms"
+  },
+  "loadingLoops": {
+    "spinnerRotation": "1s linear infinite",
+    "shimmerSweep": "1.8s ease-in-out infinite",
+    "note": "continuous ambient loops, not bound by the 200ms interactive cap. Spinner uses linear (constant angular velocity) rather than eased, on purpose"
+  }
+}

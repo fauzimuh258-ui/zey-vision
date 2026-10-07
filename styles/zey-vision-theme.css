@@ -1,0 +1,58 @@
+/**
+ * Zey Vision — Global Theme (Part 1: Color System)
+ * Midday-phase values below are the default before color-system.ts runs,
+ * and the no-JS / pre-hydration fallback.
+ */
+
+:root {
+  --zv-color-background: #F0EAE0;
+  --zv-color-surface: #F7F3EC;
+  --zv-color-foreground: #302B22;
+  --zv-color-foreground-muted: #6E6555;
+  --zv-color-border: #DDD4C2;
+  --zv-color-accent: #4F5C33;
+
+  --zv-neutral-0: #F0EAE0;
+  --zv-neutral-50: #E8E1D3;
+  --zv-neutral-100: #DDD4C2;
+  --zv-neutral-200: #C9BFAC;
+  --zv-neutral-300: #AFA48F;
+  --zv-neutral-400: #8F8570;
+  --zv-neutral-500: #6E6555;
+  --zv-neutral-600: #524A3D;
+  --zv-neutral-700: #3A342B;
+  --zv-neutral-800: #26221C;
+  --zv-neutral-900: #1A1A1A;
+
+  color-scheme: light dark;
+}
+
+/* No-JS fallback only: approximates day/night from the OS preference.
+   color-system.ts overrides this with the precise circadian value. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --zv-color-background: #1A1A1A;
+    --zv-color-surface: #241F17;
+    --zv-color-foreground: #E7D9BC;
+    --zv-color-foreground-muted: #AC9E82;
+    --zv-color-border: #362F24;
+    --zv-color-accent: #C97A3D;
+  }
+}
+
+html {
+  background-color: var(--zv-color-background);
+}
+
+body {
+  background-color: var(--zv-color-background);
+  color: var(--zv-color-foreground);
+  /* 200ms matches the spec's "gentle motion" cap; Part 4 will likely
+     replace this with a shared --zv-motion-duration token. */
+  transition: background-color 200ms ease-in-out, color 200ms ease-in-out;
+}
+
+::selection {
+  background-color: var(--zv-color-accent);
+  color: var(--zv-color-background);
+}

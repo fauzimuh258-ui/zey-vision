@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# id-token: write is what OIDC Trusted Publishing needs — no NPM_TOKEN
+# secret at all. This replaced long-lived classic tokens as npm's
+# recommended flow after a wave of token-theft supply-chain attacks led
+# npm to revoke many classic tokens outright. One-time setup this file
+# can't do for you: add this repo as a "Trusted Publisher" for the
+# package on npmjs.com before the first run.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          # Deliberately NOT setting registry-url: on some setups it makes
+          # actions/setup-node write an empty auth token line into .npmrc,
+          # which can confuse the OIDC flow into thinking token-based auth
+          # is already configured. Trusted Publishing doesn't need it.
+
+      - run: npm install -g npm@latest  # Trusted Publishing needs npm >= 11.5.1
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test
+
+      - name: Create release PR or publish
+        uses: changesets/action@v1
+        with:
+          publish: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

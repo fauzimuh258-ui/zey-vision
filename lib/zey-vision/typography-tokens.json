@@ -1,0 +1,50 @@
+{
+  "name": "zey-vision-typography-tokens",
+  "version": "0.1.0",
+  "fontRoles": {
+    "serif": {
+      "family": "Literata",
+      "role": "reading / long-form body text",
+      "fallback": "Georgia, 'Times New Roman', serif"
+    },
+    "sans": {
+      "family": "Work Sans",
+      "role": "UI chrome, short labels, navigation",
+      "fallback": "-apple-system, 'Segoe UI', sans-serif"
+    },
+    "mono": {
+      "family": "JetBrains Mono",
+      "role": "code, tabular data",
+      "fallback": "'SF Mono', Consolas, 'Courier New', monospace"
+    }
+  },
+  "scale": {
+    "note": "px values fluidly interpolated between 360px and 1280px viewport width",
+    "xs":   { "mobile": 13, "desktop": 14 },
+    "sm":   { "mobile": 14, "desktop": 15 },
+    "base": { "mobile": 16, "desktop": 18 },
+    "lg":   { "mobile": 18, "desktop": 20 },
+    "xl":   { "mobile": 20, "desktop": 23 },
+    "2xl":  { "mobile": 23, "desktop": 26 },
+    "3xl":  { "mobile": 26, "desktop": 30 },
+    "4xl":  { "mobile": 30, "desktop": 36 },
+    "5xl":  { "mobile": 36, "desktop": 44 },
+    "code": { "mobile": 15, "desktop": 16 }
+  },
+  "lineHeight": {
+    "tight": 1.25,
+    "normal": 1.7,
+    "relaxed": 1.8,
+    "code": 1.6
+  },
+  "letterSpacing": {
+    "body": "0.02em",
+    "heading": "0em",
+    "mono": "0em"
+  },
+  "measure": {
+    "min": "60ch",
+    "default": "68ch",
+    "max": "75ch"
+  }
+}

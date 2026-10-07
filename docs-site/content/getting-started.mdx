@@ -1,0 +1,45 @@
+# Getting Started
+
+```bash
+npm install @zey/vision
+```
+
+## Next.js (App Router)
+
+```tsx
+// app/layout.tsx
+import "@zey/vision/styles.css";
+import { zeyVisionFontVariables } from "@zey/vision/next";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html className={zeyVisionFontVariables}>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+## Vite / plain React
+
+```tsx
+// main.tsx
+import "@zey/vision/styles.css";
+// Fonts: @zey/vision/next wraps next/font, so it isn't available here.
+// Load Literata / Work Sans / JetBrains Mono via @fontsource/* packages
+// or a <link> tag instead, then point the --zv-font-*-raw CSS variables
+// at whatever family name you loaded.
+```
+
+## Tailwind
+
+```ts
+// tailwind.config.ts
+import type { Config } from "tailwindcss";
+import zeyVisionPreset from "@zey/vision/tailwind-preset";
+
+export default {
+  presets: [zeyVisionPreset],
+  content: ["./src/**/*.{ts,tsx}"],
+} satisfies Config;
+```

@@ -1,0 +1,81 @@
+/**
+ * Zey Vision — Component Library tokens & animations (Part 3)
+ */
+
+:root {
+  /* Shadows — soft, warm-tinted, never harsh black */
+  --zv-shadow-sm: 0 1px 2px rgba(26, 26, 26, 0.06), 0 1px 1px rgba(26, 26, 26, 0.04);
+  --zv-shadow-md: 0 6px 16px rgba(26, 26, 26, 0.10), 0 2px 6px rgba(26, 26, 26, 0.06);
+
+  /* Semantic status colors — intentionally NOT circadian-interpolated: a
+     reliably-recognizable "this is an error" matters more here than
+     matching the ambient time-of-day mood. Light values below; dark
+     overrides in the prefers-color-scheme block. "info" deliberately
+     reuses the neutral surface/foreground/border tokens instead of adding
+     a fourth hue — this system has no blue to spend on it. */
+  --zv-color-success-bg: #E3ECDD;
+  --zv-color-success-fg: #33502E;
+  --zv-color-success-border: #B9CDA9;
+
+  --zv-color-warning-bg: #F3E6CC;
+  --zv-color-warning-fg: #6B4A16;
+  --zv-color-warning-border: #E0C48C;
+
+  --zv-color-error-bg: #F3DCD3;
+  --zv-color-error-fg: #7A2E1B;
+  --zv-color-error-border: #E3B09C;
+
+  /* Fixed (non-circadian) fill for the danger button + its "on" color — a
+     solid red fill needs to stay legible in every phase, unlike the
+     outline/tint alert treatment above which sits on the page background. */
+  --zv-color-danger-solid: #8A3420;
+  --zv-color-on-danger: #F5EFE4;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --zv-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(201, 122, 61, 0.08);
+    --zv-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(201, 122, 61, 0.10);
+
+    --zv-color-success-bg: #24331F;
+    --zv-color-success-fg: #A8C79A;
+    --zv-color-success-border: #3D5233;
+
+    --zv-color-warning-bg: #3D2F13;
+    --zv-color-warning-fg: #E0BD7A;
+    --zv-color-warning-border: #5C4620;
+
+    --zv-color-error-bg: #3D211A;
+    --zv-color-error-fg: #E3A78F;
+    --zv-color-error-border: #5C3226;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Gentle motion — all <=200ms, ease-in-out, no bounce/spring             */
+/* ---------------------------------------------------------------------- */
+
+@keyframes zv-fade-scale-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.zv-modal-in {
+  animation: zv-fade-scale-in 200ms ease-in-out;
+}
+
+@keyframes zv-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.zv-pop-in {
+  animation: zv-fade-in 150ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zv-modal-in,
+  .zv-pop-in {
+    animation: none;
+  }
+}
